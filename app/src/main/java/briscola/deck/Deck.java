@@ -3,42 +3,37 @@ package briscola.deck;
 import briscola.card.Card;
 import briscola.card.Suit;
 import briscola.card.Value;
+import com.google.common.flogger.FluentLogger;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 import static java.util.stream.Collectors.toSet;
 
 public class Deck {
 
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
     private final Stack<Card> cards;
-    private Card briscola;
+    private final Card briscola;
 
     public Deck(final Shuffler<Card> shuffler, final Value[] values, final Suit[] suits) {
         final Set<Card> sortedCards = Arrays.stream(values)
                 .flatMap(value -> Arrays.stream(suits).map(suit -> new Card(value, suit)))
                 .collect(toSet());
-        this.cards = shuffler.shuffle(sortedCards);
-    }
-
-    public void setBriscola() {
+        cards = shuffler.shuffle(sortedCards);
         briscola = cards.pop();
+        logger.atInfo().log("Briscola set to %s", briscola);
+        cards.add(0, briscola);
+    }
+    
+    public boolean isBriscola(final Suit suit) {
+        return Objects.equals(briscola.suit(), suit);
     }
 
-    public boolean isBriscola(final Card card) {
-        return Objects.equals(briscola.suit(), card.suit());
-    }
-
-    public Card draw() {
-        if(cards.isEmpty()) {
-            return briscola;
+    public Optional<Card> draw() {
+        if(cards.empty()) {
+            return Optional.empty();
         }
-        return cards.pop();
-    }
-
-    public boolean isEmpty() {
-        return cards.isEmpty();
+        return Optional.of(cards.pop());
     }
 }

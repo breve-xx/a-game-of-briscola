@@ -6,6 +6,7 @@ import briscola.card.Value;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.Stack;
 
 import static briscola.card.Suit.HEARTS;
@@ -26,8 +27,9 @@ class DeckTest {
     public void givenAShufflerValuesAndSuitsThenShouldReturnAShuffledDeck() {
         final Deck sut = new Deck(noop, new Value[]{ACE}, new Suit[]{SPADES, HEARTS});
 
-        assertEquals(ACE.of(HEARTS), sut.draw());
-        assertEquals(ACE.of(SPADES), sut.draw());
-        assertTrue(sut.isEmpty());
+        assertTrue(sut.isBriscola(SPADES));
+        assertEquals(ACE.of(HEARTS), sut.draw().orElseThrow());
+        assertEquals(ACE.of(SPADES), sut.draw().orElseThrow());
+        assertEquals(Optional.empty(), sut.draw());
     }
 }

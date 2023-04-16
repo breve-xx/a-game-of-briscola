@@ -17,10 +17,13 @@ repositories {
     mavenCentral()
 }
 
+def floggeVersion = '0.7.4'
+
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'com.google.flogger:flogger:0.7.4'
+    implementation "com.google.flogger:flogger:${floggeVersion}"
+    implementation "com.google.flogger:flogger-system-backend:${floggeVersion}"
     
     testImplementation 'org.mockito:mockito-junit-jupiter:5.3.0'
 }

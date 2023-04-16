@@ -3,6 +3,7 @@ package briscola.player;
 import briscola.card.Card;
 import briscola.card.Value;
 import briscola.deck.Deck;
+import com.google.common.flogger.FluentLogger;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -11,6 +12,9 @@ import java.util.Set;
 import static java.util.Arrays.asList;
 
 public class Player {
+
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
     private final String name;
     private final Set<Card> hand = new HashSet<>();
     private final Set<Card> taken = new HashSet<>();
@@ -24,7 +28,10 @@ public class Player {
     }
 
     public void draw(final Deck deck) {
-        hand.add(deck.draw());
+        deck.draw().ifPresent(drawn -> {
+            logger.atInfo().log("%s drawn %s", name, drawn);
+            hand.add(drawn);
+        });
     }
 
     public boolean hadCards() {
@@ -36,10 +43,12 @@ public class Player {
                 .findFirst()
                 .orElseThrow();
         hand.remove(played);
+        logger.atInfo().log("%s played %s", name, played);
         return played;
     }
 
     public void take(final Collection<Card> cards) {
+        logger.atInfo().log("%s took %s", name, cards);
         taken.addAll(cards);
     }
 

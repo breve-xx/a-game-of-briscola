@@ -25,7 +25,7 @@ class DeckTest {
 
     @Test
     public void givenAShufflerValuesAndSuitsThenShouldReturnAShuffledDeck() {
-        final Deck sut = new Deck(noop, new Value[]{ACE}, new Suit[]{SPADES, HEARTS});
+        final Deck sut = new Deck(noop, new Value[]{ACE}, new Suit[]{HEARTS, SPADES});
 
         assertTrue(sut.isBriscola(SPADES));
         assertEquals(ACE.of(HEARTS), sut.draw().orElseThrow());

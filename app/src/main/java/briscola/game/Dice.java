@@ -16,7 +16,7 @@ public class Dice {
 
     public int roll() {
         final int rolled = ThreadLocalRandom.current().nextInt(1, faces + 1);
-        logger.atInfo().log("Dice rolled: %d", rolled);
+        logger.atFine().log("Dice rolled: %d", rolled);
         return rolled;
     }
 }

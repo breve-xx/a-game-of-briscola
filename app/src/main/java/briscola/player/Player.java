@@ -3,6 +3,7 @@ package briscola.player;
 import briscola.card.Card;
 import briscola.card.Value;
 import briscola.deck.Deck;
+import briscola.game.Dice;
 import com.google.common.flogger.FluentLogger;
 
 import java.util.Collection;
@@ -57,5 +58,11 @@ public class Player {
                 .map(Card::value)
                 .mapToInt(Value::points)
                 .sum();
+    }
+
+    public int roll(final Dice dice) {
+        final int rolled = dice.roll();
+        logger.atInfo().log("%s rolled: %d", name, rolled);
+        return rolled;
     }
 }

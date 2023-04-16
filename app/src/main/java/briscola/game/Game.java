@@ -27,7 +27,7 @@ public class Game {
         this.deck = deck;
         evaluator = new PlayEvaluator(deck);
         players = newArrayList(player1, player2);
-        if(dice.roll() < dice.roll()) {
+        if(player1.roll(dice) < player2.roll(dice)) {
             Collections.reverse(players);
         }
     }

@@ -1,9 +1,10 @@
 package briscola.deck;
 
+import briscola.card.Card;
 import org.junit.jupiter.api.Test;
 
-import static briscola.deck.Suit.SPADES;
-import static briscola.deck.Value.ACE;
+import static briscola.card.Suit.SPADES;
+import static briscola.card.Value.ACE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ValueTest {

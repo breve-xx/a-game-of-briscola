@@ -1,41 +1,33 @@
 package briscola.deck;
 
+import briscola.card.Card;
+import briscola.card.Suit;
+import briscola.card.Value;
+import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Set;
 import java.util.Stack;
 
-import static briscola.deck.Suit.SPADES;
-import static briscola.deck.Value.ACE;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anySet;
-import static org.mockito.Mockito.when;
+import static briscola.card.Suit.HEARTS;
+import static briscola.card.Suit.SPADES;
+import static briscola.card.Value.ACE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(MockitoExtension.class)
 class DeckTest {
 
-    @Mock
-    private Shuffler<Card> cardShuffler;
+    private final Shuffler<Card> noop = elements -> {
+        final Stack<Card> stack = new Stack<>();
+        ImmutableList.copyOf(elements).reverse().forEach(stack::push);
+        return stack;
+    };
 
     @Test
-    public void aa() {
-        final Stack<Card> deck = prepareStack();
-        when(cardShuffler.shuffle(anySet())).thenReturn(deck);
+    public void givenAShufflerValuesAndSuitsThenShouldReturnAShuffledDeck() {
+        final Deck sut = new Deck(noop, new Value[]{ACE}, new Suit[]{SPADES, HEARTS});
 
-        final Deck sut = new Deck(cardShuffler, new Value[0], new Suit[0]);
-
+        assertEquals(ACE.of(HEARTS), sut.draw());
         assertEquals(ACE.of(SPADES), sut.draw());
         assertTrue(sut.isEmpty());
-    }
-
-    private Stack<Card> prepareStack() {
-        final Stack<Card> cards = new Stack<>();
-        cards.push(ACE.of(SPADES));
-        return cards;
     }
 }

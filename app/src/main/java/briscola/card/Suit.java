@@ -1,7 +1,7 @@
-package briscola.deck;
+package briscola.card;
 
-import static briscola.deck.Color.BLACK;
-import static briscola.deck.Color.RED;
+import static briscola.card.Color.BLACK;
+import static briscola.card.Color.RED;
 
 public enum Suit {
     HEARTS("♥", RED),

@@ -1,4 +1,4 @@
-package briscola.deck;
+package briscola.card;
 
 public enum Color {
     RED,

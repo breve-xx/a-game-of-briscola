@@ -3,12 +3,54 @@
  */
 package briscola;
 
+import briscola.card.Card;
+import briscola.deck.CardShuffler;
+import briscola.deck.Deck;
+import briscola.card.Suit;
+import briscola.card.Value;
+import briscola.player.Player;
+import com.google.common.collect.Lists;
+
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+
+        final Deck deck = new Deck(new CardShuffler(), Value.values(), Suit.values());
+        deck.setBriscola();
+        final List<Player> players = Lists.newArrayList(
+                new Player("Player 1"),
+                new Player("Player 2")
+        );
+        for (int i = 0; i < 3; i++) {
+            players.forEach(player -> player.draw(deck));
+        }
+        while (!deck.isEmpty()) {
+            final List<Card> played = players.stream()
+                    .map(Player::play)
+                    .toList();
+
+            final Player player1 = players.get(0);
+            final Card played1 = played.get(0);
+
+            final Player player2 = players.get(1);
+            final Card played2 = played.get(1);
+
+            if (deck.isBriscola(played1)) {
+                if (!deck.isBriscola(played2)) {
+                    player1.take(played);
+                }
+            } else {
+                if (deck.isBriscola(played2)) {
+                    player2.take(played);
+                    Collections.reverse(players);
+                }
+            }
+
+            players.forEach(player -> player.draw(deck));
+        }
     }
 }

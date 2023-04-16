@@ -1,4 +1,4 @@
-package briscola.deck;
+package briscola.card;
 
 public enum Value {
     ACE(1, 11),
@@ -31,7 +31,11 @@ public enum Value {
     public int value() {
         return value;
     }
-    
+
+    public int order() {
+        return (points * 100) + value;
+    }
+
     public Card of(final Suit suit) {
         return new Card(this, suit);
     }

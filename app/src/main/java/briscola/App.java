@@ -10,10 +10,16 @@ import briscola.deck.Deck;
 import briscola.game.Dice;
 import briscola.game.Game;
 import briscola.player.Player;
+import com.google.common.flogger.FluentLogger;
 
 import java.util.Map;
+import java.util.logging.LogManager;
 
 public class App {
+
+    static {
+        System.setProperty("java.util.logging.SimpleFormatter.format", "%5$s%n");
+    }
 
     public static void main(String[] args) {
         final Map<String, Integer> result = new Game(
